@@ -1,0 +1,24 @@
+crtl + ' -> abre o cmd no Visual Code
+
+dotnet new webapi -> Cria um projeto api no vs code
+
+Arquivo Program.cs -> da suporte a api, funciona como um controller
+
+Arquivo RpgApi.csproj -> informações dos pacotes do projeto
+
+Arquivo appsettings.json -> guarda informações de chaves e caminhos do projeto (BD)
+
+Arquivo appsettings.Development.json -> uso local
+
+dotnet build -> compila o cóodigo
+
+dotnet run -> Executa o código da API, aparece a porta de onde é executado
+
+crtl + c -> finaliza a execução da api
+
+- Utlizamos o Padrão MVC - Model View Controller
+
+ctrl + . -> Resolução de problemas
+
+ 
+
