@@ -110,5 +110,14 @@ namespace RpgApi.Controllers
             return Ok(listaFinal);
         }
 
+        [HttpGet("GetByEnum/{enumId}")]
+        public IActionResult GetByEnum(int enumId){
+
+            ClasseEnum enumDigitado = (ClasseEnum)enumId;
+
+            List<Personagem> listaBusca = personagens.FindAll(p => p.Classe == enumDigitado);
+            return Ok(listaBusca);
+        }
+
     }
 }
