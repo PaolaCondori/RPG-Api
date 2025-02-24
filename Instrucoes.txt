@@ -1,0 +1,14 @@
+Instruções na pasta da aula.
+- Abrir projeto da aula anterior
+	--> Caso esteja sem, buscar na pasta da Aula 03.
+
+- Comandos para instalaçao de pacotes:
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+
+- Criar pasta Data no Projeto
+- Criar classe DataContext dentro da pasta Data 
+
+- Deixar serviço do docker iniciado
+- Dar play no container --> SQL Server
