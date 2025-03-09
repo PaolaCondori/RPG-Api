@@ -1,2 +1,2 @@
 # RPG-Api
-Projeto criado para a disciplina de PAM2
+Projeto desenvolvido pelas alunas Mariana Mainarte e Paola Condori para a disciplina PAM2
