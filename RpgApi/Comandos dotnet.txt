@@ -29,3 +29,5 @@ dotnet ef migrations add InitialCreate -> cria migração
 dotnet ef database update -> update na database do sql (fazer todo começo de aula)
 
 dotnet ef migrations script -o ./script01_TabelaPersonagens.sql -> cria script da tabela
+
+dotnet publish -c release -o ./publish -> altera para uma conexão diferente da atual

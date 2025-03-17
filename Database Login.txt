@@ -1,0 +1,3 @@
+Caminho Banco:
+
+workstation id=DB-DS-MARIANA-PAOLA.mssql.somee.com;packet size=4096;user id=saMariana&Paola;pwd=*123456HAS*;data source=DB-DS-MARIANA-PAOLA.mssql.somee.com;persist security info=False;initial catalog=DB-DS-MARIANA-PAOLA;TrustServerCertificate=True
