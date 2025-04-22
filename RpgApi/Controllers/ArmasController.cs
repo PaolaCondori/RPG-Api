@@ -61,6 +61,13 @@ namespace RpgApi.Controllers
                 if(novaArma.Dano == 0)
                   throw new Exception("O Dano da arma não pode ser 0");
 
+                Personagem p = await _context.TB_PERSONAGENS
+                    .FirstOrDefaultAsync(p => p.Id == novaArma.PersonagemId);
+                    
+                if(p == null){
+                    throw new Exception("Não existe personagem com o Id informado.");
+                }
+
                 await _context.TB_ARMAS.AddAsync(novaArma);
                 await _context.SaveChangesAsync();
 
@@ -68,7 +75,7 @@ namespace RpgApi.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message + " - " + ex.InnerException);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -79,12 +86,17 @@ namespace RpgApi.Controllers
             {
                 _context.TB_ARMAS.Update(novaArma);
                 int linhaAfetadas = await _context.SaveChangesAsync();
+                Personagem p = await _context.TB_PERSONAGENS
+                    .FirstOrDefaultAsync(p => p.Id == novaArma.PersonagemId);
+                if(p == null){
+                    throw new Exception("Não existe personagem com o Id informado.");
+                }
 
                 return Ok(linhaAfetadas);
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message + " - " + ex.InnerException);
+                return BadRequest(ex.Message);
             }
         }
 

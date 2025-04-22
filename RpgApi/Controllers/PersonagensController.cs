@@ -23,9 +23,12 @@ namespace RpgApi.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingle(int id)
-        {
+        {//adicionar usuario ao qual o p pertence
             try{
                 Personagem p = await _context.TB_PERSONAGENS
+                    .Include(ar => ar.Arma)
+                    .Include(ph => ph.PersonagemHabilidades)
+                        .ThenInclude(h => h.Habilidade)
                     .FirstOrDefaultAsync(pBusca => pBusca.Id == id);
                 return Ok(p);
             }

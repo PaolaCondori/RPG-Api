@@ -18,6 +18,7 @@ namespace RpgApi.Models
         public ClasseEnum Classe { get; set; }
         public byte[]? FotoPersonagem { get; set; }
         public int? UsuarioId { get; set; }
+        public List<PersonagemHabilidade> PersonagemHabilidades { get; set; } = [];
 
         [JsonIgnore]
         public Usuario? Usuario { get; set; }
@@ -27,5 +28,6 @@ namespace RpgApi.Models
         public int Disputas { get; set; }
         public int Vitorias { get; set; }
         public int Derrotas { get; set; }
+    
     }
 }

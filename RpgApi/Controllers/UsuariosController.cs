@@ -29,6 +29,17 @@ namespace RpgApi.Controllers
             return false;
         }
 
+        [HttpGet("Usuários")]
+        public async Task<IActionResult> ListarUsuario(){
+            try{
+               List<Usuario> usuarios = await _context.TB_USUARIOS.ToListAsync() ;
+                return Ok(usuarios);
+            }
+            catch(System.Exception ex){
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("Registrar")]
         public async Task<IActionResult> RegistrarUsuario(Usuario user){
             try{
@@ -49,5 +60,43 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("Autenticar")]
+        public async Task<IActionResult> AutenticarUsuario(Usuario credenciais){
+            try{
+                Usuario? usuario = await _context.TB_USUARIOS
+                    .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
+                    if(usuario == null){
+                        throw new System.Exception("Usuário não encontrado.");
+                    }
+                    else if(!Criptografia
+                        .VerificarPasswordHash(credenciais.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
+                    {
+                        throw new System.Exception("Senha incorreta.");
+                    }
+                    else{
+                        //Alimentar DataAcesso com dt/hr atual + salvar no bd via ef
+                        return Ok(usuario);
+                    }
+            }
+            catch(System.Exception ex){
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("AlterarSenha")]
+        public async Task<IActionResult> AlterarSenha(Usuario usuario)
+        {
+            try{
+                //método responsavel por alterar a senha + autenticação
+                return Ok();
+            }
+            catch(System.Exception ex){
+                return BadRequest(ex.Message);
+            }
+
+
+        }
+
     }
 }
