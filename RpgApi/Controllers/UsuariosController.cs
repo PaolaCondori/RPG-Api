@@ -66,6 +66,7 @@ namespace RpgApi.Controllers
             try{
                 Usuario? usuario = await _context.TB_USUARIOS
                     .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
+
                     if(usuario == null){
                         throw new System.Exception("Usuário não encontrado.");
                     }
@@ -76,6 +77,8 @@ namespace RpgApi.Controllers
                     }
                     else{
                         //Alimentar DataAcesso com dt/hr atual + salvar no bd via ef
+                        //data = usuario.DataAcesso == DateTime.Now 
+                        //await _context.TB_USUARIOS.AddAsync(data); await _context.SaveChangesAsync();
                         return Ok(usuario);
                     }
             }

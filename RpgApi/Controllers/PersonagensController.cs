@@ -26,6 +26,7 @@ namespace RpgApi.Controllers
         {//adicionar usuario ao qual o p pertence
             try{
                 Personagem p = await _context.TB_PERSONAGENS
+                    .Include(u => u.Usuario)//mostrar usuario ao qual o p pertence (4)
                     .Include(ar => ar.Arma)
                     .Include(ph => ph.PersonagemHabilidades)
                         .ThenInclude(h => h.Habilidade)
