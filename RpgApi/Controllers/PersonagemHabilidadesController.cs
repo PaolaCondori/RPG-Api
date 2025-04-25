@@ -17,15 +17,16 @@ namespace RpgApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> PersonagemHabilidades(Personagem id){
+        public async Task<IActionResult> PersonagemHabilidades(int id)
+        {
             try{
-                //lista de personagem hablidade
-                return Ok();
+                //lista de personagem hablidade de acordo com o id do personagem
+                List<PersonagemHabilidade> phLista = await _context.TB_PERSONAGENS_HABILIDADES.Where(ph => ph.PersonagemId == id).ToListAsync();
+                return Ok(phLista);
             }
             catch(System.Exception ex){
                 return BadRequest(ex.Message);
             }
-
         } 
 
         [HttpGet("GetHabilidades")]
@@ -70,6 +71,20 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /*
+        [HttpPost("DeletePersonagemHabilidade")]
+        public async Task<IActionResult> DeletePersonagemHabilidade(Personagem personagem, Habilidade habilidade){
+            try{
+                
+                return Ok();
+            }
+            catch(System.Exception ex){
+                return BadRequest(ex.Message);
+            }
+        }
+        */
+
+        
     }
 
 }

@@ -29,7 +29,7 @@ namespace RpgApi.Controllers
             return false;
         }
 
-        [HttpGet("Usuários")]
+        [HttpGet("ListaUsuarios")]
         public async Task<IActionResult> ListarUsuario(){
             try{
                List<Usuario> usuarios = await _context.TB_USUARIOS.ToListAsync() ;
@@ -79,6 +79,9 @@ namespace RpgApi.Controllers
                         //Alimentar DataAcesso com dt/hr atual + salvar no bd via ef
                         //data = usuario.DataAcesso == DateTime.Now 
                         //await _context.TB_USUARIOS.AddAsync(data); await _context.SaveChangesAsync();
+                        usuario.DataAcesso = DateTime.Now;
+                        await _context.TB_USUARIOS.AddAsync(usuario);
+                        await _context.SaveChangesAsync();
                         return Ok(usuario);
                     }
             }
@@ -87,12 +90,22 @@ namespace RpgApi.Controllers
             }
         }
 
-        [HttpPut("AlterarSenha")]
-        public async Task<IActionResult> AlterarSenha(Usuario usuario)
+        [HttpPut("AlterarSenha/{novaSenha}")]
+        public async Task<IActionResult> AlterarSenha(string novaSenha, Usuario usuario)
         {
             try{
                 //método responsavel por alterar a senha + autenticação
-                return Ok();
+                /*Verficar senha atual
+                Modificar senha atual pela nova senha*/
+                if(Criptografia.VerificarPasswordHash(usuario.PasswordString, usuario.PasswordHash, usuario.PasswordSalt)){
+                    usuario.PasswordString = novaSenha;
+                    await _context.TB_USUARIOS.AddAsync(usuario);
+                    await _context.SaveChangesAsync();
+                    return Ok(usuario);
+                }else{
+                    throw new Exception("Senha incorreta! Digite a senha atual corretamente");
+                }
+                
             }
             catch(System.Exception ex){
                 return BadRequest(ex.Message);
