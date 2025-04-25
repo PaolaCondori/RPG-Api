@@ -71,16 +71,13 @@ namespace RpgApi.Controllers
                         throw new System.Exception("Usuário não encontrado.");
                     }
                     else if(!Criptografia
-                        .VerificarPasswordHash(credenciais.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
+                        .VerificarPasswordHash(usuario.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
                     {
                         throw new System.Exception("Senha incorreta.");
                     }
                     else{
-                        //Alimentar DataAcesso com dt/hr atual + salvar no bd via ef
-                        //data = usuario.DataAcesso == DateTime.Now 
-                        //await _context.TB_USUARIOS.AddAsync(data); await _context.SaveChangesAsync();
                         usuario.DataAcesso = DateTime.Now;
-                        await _context.TB_USUARIOS.AddAsync(usuario);
+                         _context.TB_USUARIOS.Update(usuario);
                         await _context.SaveChangesAsync();
                         return Ok(usuario);
                     }
@@ -90,28 +87,32 @@ namespace RpgApi.Controllers
             }
         }
 
-        [HttpPut("AlterarSenha/{novaSenha}")]
-        public async Task<IActionResult> AlterarSenha(string novaSenha, Usuario usuario)
+        [HttpPut("AlterarSenha")]
+        public async Task<IActionResult> AlterarSenha( Usuario credenciais)
         {
             try{
-                //método responsavel por alterar a senha + autenticação
-                /*Verficar senha atual
-                Modificar senha atual pela nova senha*/
-                if(Criptografia.VerificarPasswordHash(usuario.PasswordString, usuario.PasswordHash, usuario.PasswordSalt)){
-                    usuario.PasswordString = novaSenha;
-                    await _context.TB_USUARIOS.AddAsync(usuario);
+                //Verificar a existência do usuário
+                Usuario? usuario = await _context.TB_USUARIOS
+                    .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
+
+                if(usuario == null){
+                    throw new System.Exception("Usuário não encontrado.");
+                }else
+                {
+                    //Trocando de senha, gerando novo hash e salt
+                    Criptografia.CriarPasswordHash(usuario.PasswordString, out byte[] hash, out byte[] salt);
+                    usuario.PasswordString = string.Empty;
+                    usuario.PasswordHash = hash;
+                    usuario.PasswordSalt = salt;
+                     _context.TB_USUARIOS.Update(usuario);
                     await _context.SaveChangesAsync();
-                    return Ok(usuario);
-                }else{
-                    throw new Exception("Senha incorreta! Digite a senha atual corretamente");
+                    return Ok("Senha alterada!");
                 }
                 
             }
             catch(System.Exception ex){
                 return BadRequest(ex.Message);
             }
-
-
         }
 
     }

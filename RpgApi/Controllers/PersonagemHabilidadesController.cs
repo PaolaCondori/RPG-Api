@@ -17,10 +17,10 @@ namespace RpgApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> PersonagemHabilidades(int id)
+        public async Task<IActionResult> ListaPersonagemHabilidades(int id)
         {
             try{
-                //lista de personagem hablidade de acordo com o id do personagem
+                //Lista de personagem hablidade de acordo com o id do personagem
                 List<PersonagemHabilidade> phLista = await _context.TB_PERSONAGENS_HABILIDADES.Where(ph => ph.PersonagemId == id).ToListAsync();
                 return Ok(phLista);
             }
@@ -71,18 +71,31 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        /*
+
         [HttpPost("DeletePersonagemHabilidade")]
-        public async Task<IActionResult> DeletePersonagemHabilidade(Personagem personagem, Habilidade habilidade){
+        public async Task<IActionResult> DeletePersonagemHabilidade(PersonagemHabilidade personagemHabilidade){
             try{
-                
-                return Ok();
+                var personagem = await _context.TB_PERSONAGENS.FirstOrDefaultAsync(p => p.Id == personagemHabilidade.PersonagemId);
+                var habilidade = await _context.TB_HABILIDADES.FirstOrDefaultAsync(h => h.Id == personagemHabilidade.HabilidadeId);
+                var ph = await _context.TB_PERSONAGENS_HABILIDADES.FirstOrDefaultAsync(ph => ph.PersonagemId == personagemHabilidade.PersonagemId && ph.HabilidadeId == personagemHabilidade.HabilidadeId);
+                if(personagem == null){
+                    throw new Exception("Personagem não encontrado.");
+                }
+                if(habilidade == null){
+                    throw new Exception("Habilidade não encontrada.");
+                }
+                if(ph == null){
+                    throw new Exception("A relação entre personagem e habilidade não foi encontrada");
+                }
+                 _context.TB_PERSONAGENS_HABILIDADES.Remove(ph);
+                 await _context.SaveChangesAsync();
+                return Ok("A relação entre personagem e habilidade foi excluída com sucesso!");
             }
             catch(System.Exception ex){
                 return BadRequest(ex.Message);
             }
         }
-        */
+
 
         
     }

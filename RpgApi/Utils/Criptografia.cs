@@ -27,7 +27,7 @@ namespace RpgApi.Utils
                         return false;
                     }
                 }
-                return false;
+                return true;
             }
         }
 
