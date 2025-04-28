@@ -7,6 +7,7 @@ namespace RpgApi.Utils
 {
     public class Criptografia
     {
+        //static -> consegue chamar o método assim: Classe.Método();
         public static void CriarPasswordHash(string password, out byte[] hash, out byte[] salt)
         {
             using(var hmac = new System.Security.Cryptography.HMACSHA512())

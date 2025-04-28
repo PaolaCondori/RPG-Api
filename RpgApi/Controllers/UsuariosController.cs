@@ -29,7 +29,7 @@ namespace RpgApi.Controllers
             return false;
         }
 
-        [HttpGet("ListaUsuarios")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> ListarUsuario(){
             try{
                List<Usuario> usuarios = await _context.TB_USUARIOS.ToListAsync() ;
@@ -64,14 +64,13 @@ namespace RpgApi.Controllers
         [HttpPost("Autenticar")]
         public async Task<IActionResult> AutenticarUsuario(Usuario credenciais){
             try{
-                Usuario? usuario = await _context.TB_USUARIOS
+                    Usuario? usuario = await _context.TB_USUARIOS
                     .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
 
                     if(usuario == null){
                         throw new System.Exception("Usuário não encontrado.");
                     }
-                    else if(!Criptografia
-                        .VerificarPasswordHash(usuario.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
+                    else if(!Criptografia.VerificarPasswordHash(usuario.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
                     {
                         throw new System.Exception("Senha incorreta.");
                     }
@@ -114,6 +113,5 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }
