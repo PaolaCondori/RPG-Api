@@ -55,4 +55,4 @@ jobs:
           app-name: 'rpg-MarianaPaola'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B121831BC7E741EFA3188FE9E5BB09A3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A0E04F7FA264456EB2674FF98B8867A1 }}
